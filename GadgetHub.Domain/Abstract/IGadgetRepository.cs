@@ -13,5 +13,7 @@ namespace GadgetHub.Domain.Abstract
         IEnumerable<Gadget> Gadgets { get; }
 
         void SaveGadget(Gadget gadget);
+
+        Gadget DeleteGadget( int gadgetID);
     }
 }

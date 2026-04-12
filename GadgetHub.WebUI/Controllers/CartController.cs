@@ -86,7 +86,7 @@ namespace GadgetHub.WebUI.Controllers
             {
                 orderProcessor.ProcessOrder(cart, shippingDetails);
                 cart.Clear();
-                return View("Completed");
+                return View("Completed", shippingDetails);
             }
             else
             {

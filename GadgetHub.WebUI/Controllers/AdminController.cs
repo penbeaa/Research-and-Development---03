@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using GadgetHub.Domain.Abstract;
+using System.Linq;
 using GadgetHub.Domain.Entities;
 using GadgetHub.Domain.Entites;
 
@@ -28,8 +25,8 @@ namespace GadgetHub.WebUI.Controllers
                 .FirstOrDefault(g => g.GadgetID == gadgetID);
             return View(gadget);
         }
-    
-    [HttpPost]
+
+        [HttpPost]
         public ActionResult Edit(Gadget gadget)
         {
             if (ModelState.IsValid)
@@ -39,12 +36,38 @@ namespace GadgetHub.WebUI.Controllers
                     ("{0} has been saved", gadget.Name);
                 return RedirectToAction("Index");
             }
+
             else
             {
                 return View(gadget);
             }
         }
 
+        public ActionResult Create()
+        {
+            return View("Edit", new Gadget());
+        }
 
+        [HttpPost]
+        public ActionResult Delete(int gadgetID)
+        {
+            repository.DeleteGadget(gadgetID);
+            TempData["message"] = "Gadget was deleted";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Create(Gadget gadget)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.SaveGadget(gadget);
+                TempData["message"] = $"{gadget.Name} has been created";
+                return RedirectToAction("Index");
+            }
+
+            return View("Edit", gadget);
+        }
     }
 }
+

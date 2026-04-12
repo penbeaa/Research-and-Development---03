@@ -12,14 +12,11 @@ namespace GadgetHub.Domain.Entites
     {
         [HiddenInput (DisplayValue = false)]
         public int GadgetID { get; set; }
-
         public string Name { get; set; }
 
         [DataType (DataType.MultilineText)]
         public string Description { get; set; }
-
         public decimal Price { get; set; }
-
         public string category { get; set; }
 
     }
