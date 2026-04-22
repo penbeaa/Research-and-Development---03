@@ -1,22 +1,25 @@
 ﻿@model GadgetHub.Domain.Entites.Gadget
 
-<div class="card p-3 bg-light text-dark mb2">
-    <h3>
-        <strong>@Model.Name</strong>
-        <span class="badge bg-primary float-end">
-            @Model.Price.ToString("c")
-        </span>
-    </h3>
+<div class="well">
+
+    @if (Model.ImageData != null)
+    {
+        <div class="pull-right" style="margin-right: 10px">
+            <img class="img-thumbnail" width="75" height="75"
+                 src="@Url.Action("GetImage", "Gadget", new {Model.GadgetID})"/>
+        </div>
+    }
+
+    @using (Html.BeginForm("AddToCart", "Cart"))
+    {
+        <div class="pull-right">
+            @Html.HiddenFor(x => x.GadgetID)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+
+            <input type="submit" class="btn btn-success" value="Add to cart" />
+        </div>
+    }
 
     <span class="lead"> @Model.Description</span>
+
 </div>
-
-@using (Html.BeginForm("AddToCart", "Cart"))
- {
-    <div class="float=end">
-        @Html.HiddenFor(x => x.GadgetID)
-        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-
-        <input type="submit" class="btn btn-success" value="Add to cart"/>
-    </div>
- }

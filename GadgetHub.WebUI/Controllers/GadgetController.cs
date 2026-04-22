@@ -1,17 +1,20 @@
-﻿using System;
+﻿using GadgetHub.Domain.Abstract;
+using GadgetHub.Domain.Entites;
+using GadgetHub.Domain.Entities;
+using GadgetHub.WebUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using GadgetHub.Domain.Abstract;
-using GadgetHub.WebUI.Models;
+
 
 namespace GadgetHub.WebUI.Controllers
 {
     public class GadgetController : Controller
     {
         private IGadgetRepository myrepository;
-        public GadgetController (IGadgetRepository gadgetRepository)
+        public GadgetController(IGadgetRepository gadgetRepository)
         {
             this.myrepository = gadgetRepository;
         }
@@ -33,7 +36,7 @@ namespace GadgetHub.WebUI.Controllers
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
                     TotalItems = category == null ?
-                                 myrepository.Gadgets.Count() : 
+                                 myrepository.Gadgets.Count() :
                                  myrepository.Gadgets.Where
                                        (e => e.category == category).Count()
                 },
@@ -41,6 +44,24 @@ namespace GadgetHub.WebUI.Controllers
             };
 
             return View(model);
+        }
+
+
+        public FileContentResult GetImage(int gadgetId)
+        {
+            Gadget gadg = myrepository.Gadgets.FirstOrDefault(g => g.GadgetID == gadgetId);
+
+
+
+            if (gadg != null)
+            {
+                return File(gadg.ImageData, gadg.ImageMineType);
+
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
